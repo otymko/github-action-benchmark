@@ -283,7 +283,7 @@ function isRemoteRejectedError(err) {
 }
 async function writeBenchmarkToGitHubPagesWithRetry(bench, config, retry) {
     var _a, _b;
-    const { name, tool, ghPagesBranch, benchmarkDataDirPath, githubToken, autoPush, skipFetchGhPages, maxItemsInChart, } = config;
+    const { name, tool, ghPagesBranch, benchmarkDataDirPath, githubToken, autoPush, skipFetchGhPages, maxItemsInChart, bandge} = config;
     const dataPath = path.join(benchmarkDataDirPath, 'data.js');
     const isPrivateRepo = (_b = (_a = github.context.payload.repository) === null || _a === void 0 ? void 0 : _a.private) !== null && _b !== void 0 ? _b : false;
     if (!skipFetchGhPages && (!isPrivateRepo || githubToken)) {
@@ -298,6 +298,13 @@ async function writeBenchmarkToGitHubPagesWithRetry(bench, config, retry) {
     const prevBench = addBenchmarkToDataJson(name, bench, data, maxItemsInChart);
     await storeDataJs(dataPath, data);
     await git.cmd('add', dataPath);
+
+    if (bandge != null) {
+        let dataPathBandge = path.join(benchmarkDataDirPath, 'benchmark.svg');
+        fs_1.writeFileSync(dataPathBandge, bandge)  
+        await git.cmd('add', dataPathBandge);  
+    }
+
     await addIndexHtmlIfNeeded(benchmarkDataDirPath);
     await git.cmd('commit', '-m', `add ${name} (${tool}) benchmark result for ${bench.commit.id}`);
     if (githubToken && autoPush) {

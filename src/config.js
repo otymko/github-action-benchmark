@@ -207,6 +207,13 @@ async function configFromJobInput() {
     if (failThreshold === null) {
         failThreshold = alertThreshold;
     }
+
+    bandge = null
+    pathToSVG = 'benchmark.svg'
+    if (fs_1.existsSync(pathToSVG)){
+        bandge = await fs_1.promises.readFile(pathToSVG, 'utf8');
+    }
+    
     return {
         name,
         tool,
@@ -225,6 +232,7 @@ async function configFromJobInput() {
         externalDataJsonPath,
         maxItemsInChart,
         failThreshold,
+        'bandge': bandge,
     };
 }
 exports.configFromJobInput = configFromJobInput;
