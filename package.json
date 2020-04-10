@@ -68,11 +68,6 @@
     "rimraf": "^3.0.2",
     "typescript": "^3.8.3"
   },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm-run-all -p lint test"
-    }
-  },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript"
   }
