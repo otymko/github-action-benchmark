@@ -342,7 +342,7 @@ async function writeBenchmarkToGitHubPages(bench, config) {
     const { ghPagesBranch, skipFetchGhPages } = config;
 
     //let dataPath = path.join(benchmarkDataDirPath, 'benchmark.js');
-    pathToSVG = 'benchmark.svg';
+    let pathToSVG = 'benchmark.svg';
     if (fs_1.existsSync(pathToSVG)){
         bandge = await fs_1.promises.readFile(pathToSVG, 'utf8');   
     }
