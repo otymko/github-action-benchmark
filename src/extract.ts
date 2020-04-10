@@ -272,8 +272,8 @@ function extractPytestResult(output: string): BenchmarkResult[] {
         return json.benchmarks.map(bench => {
             const stats = bench.stats;
             const name = bench.fullname;
-            const value = stats.ops;
-            const unit = 'iter/sec';
+            const value = stats.total;
+            const unit = 'sec';
             const range = `stddev: ${stats.stddev}`;
             const [mean, meanUnit] = getHumanReadableUnitValue(stats.mean);
             const extra = `mean: ${mean} ${meanUnit}\nrounds: ${stats.rounds}`;
