@@ -20,6 +20,9 @@ const DEFAULT_DATA_JSON = {
     repoUrl: '',
     entries: {},
 };
+
+let bandge = null;
+
 async function loadDataJs(dataPath) {
     try {
         const script = await fs_1.promises.readFile(dataPath, 'utf8');
@@ -283,7 +286,7 @@ function isRemoteRejectedError(err) {
 }
 async function writeBenchmarkToGitHubPagesWithRetry(bench, config, retry) {
     var _a, _b;
-    const { name, tool, ghPagesBranch, benchmarkDataDirPath, githubToken, autoPush, skipFetchGhPages, maxItemsInChart, bandge} = config;
+    const { name, tool, ghPagesBranch, benchmarkDataDirPath, githubToken, autoPush, skipFetchGhPages, maxItemsInChart, } = config;
     const dataPath = path.join(benchmarkDataDirPath, 'data.js');
     const isPrivateRepo = (_b = (_a = github.context.payload.repository) === null || _a === void 0 ? void 0 : _a.private) !== null && _b !== void 0 ? _b : false;
     if (!skipFetchGhPages && (!isPrivateRepo || githubToken)) {
@@ -301,8 +304,8 @@ async function writeBenchmarkToGitHubPagesWithRetry(bench, config, retry) {
 
     if (bandge != null) {
         let dataPathBandge = path.join(benchmarkDataDirPath, 'benchmark.svg');
-        fs_1.writeFileSync(dataPathBandge, bandge)  
-        await git.cmd('add', dataPathBandge);  
+        fs_1.writeFileSync(dataPathBandge, bandge)
+        await git.cmd('add', dataPathBandge);
     }
 
     await addIndexHtmlIfNeeded(benchmarkDataDirPath);
@@ -337,6 +340,13 @@ async function writeBenchmarkToGitHubPagesWithRetry(bench, config, retry) {
 }
 async function writeBenchmarkToGitHubPages(bench, config) {
     const { ghPagesBranch, skipFetchGhPages } = config;
+
+    //let dataPath = path.join(benchmarkDataDirPath, 'benchmark.js');
+    pathToSVG = 'benchmark.svg';
+    if (fs_1.existsSync(pathToSVG)){
+        bandge = await fs_1.promises.readFile(pathToSVG, 'utf8');   
+    }
+
     if (!skipFetchGhPages) {
         await git.cmd('fetch', 'origin', `${ghPagesBranch}:${ghPagesBranch}`);
     }
