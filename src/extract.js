@@ -134,7 +134,7 @@ function extractPytestResult(output) {
         return json.benchmarks.map(bench => {
             const stats = bench.stats;
             const name = bench.fullname;
-            const value = stats.total;
+            const value = stats.mean;
             const unit = 'sec';
             const range = `stddev: ${stats.stddev}`;
             const [mean, meanUnit] = getHumanReadableUnitValue(stats.mean);
