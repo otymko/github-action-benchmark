@@ -64,7 +64,7 @@ function biggerIsBetter(tool) {
         case 'benchmarkjs':
             return true;
         case 'pytest':
-            return true;
+            return false;
         case 'googlecpp':
             return false;
         case 'catch2':
